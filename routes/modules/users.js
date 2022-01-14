@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs/dist/bcrypt')
 const express = require('express')
+const passport = require('passport')
 const router = express.Router()
 const db = require('../../models')
 const Todo = db.Todo
@@ -9,9 +10,10 @@ router.get('/login', (req, res) => {
   res.render('login')
 })
 
-router.post('/login', (req, res) => {
-  res.send('login')
-})
+router.post('/login', passport.authenticate('local', {
+  successRedirect: '/',
+  failureRedirect: '/users/login'
+}))
 
 router.get('/register', (req, res, next) => {
   res.render('register')
@@ -36,7 +38,7 @@ router.post('/register', (req, res, next) => {
       .then(hash => User.create({ name, email, password: hash }))
       .then(() => res.redirect('/'))
   })
-  .catch(err => next(err))
+    .catch(err => next(err))
 })
 
 router.get('/logout', (req, res) => {
