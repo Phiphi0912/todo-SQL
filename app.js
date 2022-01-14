@@ -15,6 +15,10 @@ app.use(methodOverride('_method'))
 
 app.use(routes)
 
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500
+  res.render('error', { statusCode, message: '請稍候在試' })
+})
 
 app.listen(PORT, () => {
   console.log(`App is running on http://localhost:${PORT}`)
