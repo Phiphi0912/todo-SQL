@@ -25,7 +25,7 @@ router.post('/register', (req, res, next) => {
       errors.push({ message: '此信箱已經註冊！' })
       return res.render('register', {
         errors,
-        name,
+        name,  //這裡的name是上方req.body宣告的，並非從user中拿出，所以不需要轉成JSON
         email,
         password,
         confirmPassword
